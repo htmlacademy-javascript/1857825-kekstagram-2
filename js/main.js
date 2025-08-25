@@ -1,5 +1,5 @@
-import {createArrayPhotoDescriptions} from './create-array-miniatures';
+import { similarPhotoDescriptions } from './render.js';
+import { renderThumbnails } from './render.js';
 
-const SIMILAR_OBJECTS = 25;
+renderThumbnails(similarPhotoDescriptions);
 
-createArrayPhotoDescriptions(SIMILAR_OBJECTS);
