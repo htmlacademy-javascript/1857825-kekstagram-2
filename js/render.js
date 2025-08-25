@@ -25,5 +25,4 @@ const creatPhotoElement = (photo) => {
 export const renderThumbnails = (photo) => usersPhotoList.append(...photo.map(creatPhotoElement));
 
 export { similarPhotoDescriptions };
-
 /*renderPack(similarPhotoDescriptions, creatPhotoElement, usersPhotoList);*/
