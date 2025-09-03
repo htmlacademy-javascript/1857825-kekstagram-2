@@ -12,10 +12,20 @@ const findTemplate = (id) => {
   return template.content.firstElementChild;
 };
 
+const makeCommentElement = (comment) => {
+  const commentElement = document.createElement('li');
+  commentElement.className = 'social__comment';
+  commentElement.innerHTML = `
+    <img class="social__picture" src="${comment.avatar}" alt="${comment.name}" width="35" height="35">
+    <p class="social__text">${comment.message}</p>
+  `;
+  return commentElement;
+};
+
 const renderPack = (items, makeElement, container) => {
   const fragment = document.createDocumentFragment();
   items.forEach((item) => fragment.appendChild(makeElement(item)));
   container.appendChild(fragment);
 };
 
-export { findTemplate, renderPack };
+export { findTemplate, renderPack, makeCommentElement};
