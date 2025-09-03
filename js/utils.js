@@ -28,4 +28,6 @@ const createRandomIdFromRangeGenerator = (min, max)=> {
   };
 };
 
-export {getRandomInteger, generateCounterId, createRandomIdFromRangeGenerator};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export { getRandomInteger, generateCounterId, createRandomIdFromRangeGenerator, isEscapeKey };
