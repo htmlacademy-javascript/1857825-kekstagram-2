@@ -1,4 +1,4 @@
-import { createArrayPhotoDescriptions } from './create-array-miniatures';
+import { createArrayPhotoDescriptions } from './createArrayMiniatures.js';
 import { findTemplate, renderPack } from './domUtils.js';
 
 const SIMILAR_OBJECTS = 25;
