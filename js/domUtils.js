@@ -1,3 +1,33 @@
+const pageBody = document.querySelector('body');
+
+const addClass = (element, className) => {
+  if (element) {
+    element.classList.add(className);
+  }
+};
+
+const removeClass = (element, className) => {
+  if (element) {
+    element.classList.remove(className);
+  }
+};
+
+const hideElement = (element) => {
+  addClass(element, 'hidden');
+};
+
+const showElement = (element) => {
+  removeClass(element, 'hidden');
+};
+
+const removeModalOpen = () => {
+  pageBody.classList.remove('modal-open');
+};
+
+const addModalOpen = () => {
+  pageBody.classList.add('modal-open');
+};
+
 const findTemplate = (id) => {
   const template = document.getElementById(id);
 
@@ -28,4 +58,4 @@ const renderPack = (items, makeElement, container) => {
   container.appendChild(fragment);
 };
 
-export { findTemplate, renderPack, makeCommentElement};
+export { findTemplate, renderPack, makeCommentElement, hideElement, showElement, removeModalOpen, addModalOpen};
