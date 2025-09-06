@@ -4,6 +4,8 @@ import { createComments } from './createComments.js';
 
 import { isEscapeKey } from './utils.js';
 
+import { hideElement, showElement, removeModalOpen, addModalOpen } from './domUtils.js';
+
 let onDocumentKeydown = null;
 
 const bigPicture = document.querySelector('.big-picture');
@@ -19,8 +21,8 @@ const bigPictureDescription = bigPicture.querySelector('.social__caption');
 const bigPictureButtonClose = bigPicture.querySelector('.big-picture__cancel');
 
 const closeBigPicture = () => {
-  bigPicture.classList.add('hidden');
-  document.querySelector('body').classList.remove('modal-open');
+  hideElement(bigPicture);
+  removeModalOpen();
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
@@ -32,8 +34,8 @@ onDocumentKeydown = (evt) => {
 };
 
 const openBigPicture = () => {
-  bigPicture.classList.remove('hidden');
-  document.querySelector('body').classList.add('modal-open');
+  showElement(bigPicture);
+  addModalOpen();
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
@@ -52,7 +54,6 @@ usersPhotoList.addEventListener('click', (event) => {
     bigPictureDescription.textContent = selectedPhoto.description;
 
     createComments(selectedPhoto);
-    /*bigPictureShowComments.textContent = commentsAdd;*/
     openBigPicture();
   }
 });

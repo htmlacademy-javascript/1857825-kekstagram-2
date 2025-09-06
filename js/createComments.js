@@ -1,4 +1,4 @@
-import { makeCommentElement, renderPack } from './domUtils';
+import { hideElement, showElement, makeCommentElement, renderPack } from './domUtils';
 
 const COMMENTS_TO_SHOW = 5;
 
@@ -19,7 +19,7 @@ const loadMoreComments = () => {
   shownComments += commentsToLoad;
   shownCommentsCount.textContent = shownComments;
   if (shownComments >= currentComments.length) {
-    commentLoader.classList.add('hidden');
+    hideElement(commentLoader);
   }
 };
 
@@ -36,14 +36,14 @@ const createComments = (currentPhoto) => {
 
   if (currentComments.length === 0) {
     shownCommentsCount.textContent = '0';
-    commentLoader.classList.add('hidden');
+    hideElement(commentLoader);
     return;
   }
 
   if (currentComments.length > COMMENTS_TO_SHOW) {
-    commentLoader.classList.remove('hidden');
+    showElement(commentLoader);
   } else {
-    commentLoader.classList.add('hidden');
+    hideElement(commentLoader);
   }
 
   loadMoreComments();
