@@ -2,7 +2,9 @@ import { isEscapeKey } from './utils';
 
 import { showElement, hideElement, addModalOpen, removeModalOpen } from './domUtils';
 
-import { textHashtags, textDescription } from './formValidate';
+import { textHashtags, textDescription, formUpload } from './formValidate';
+
+import { DEFAULT_SCALE, previewImgUpload, updateScale } from './editLoadImg';
 
 import './formValidate/';
 
@@ -18,6 +20,9 @@ const closeFormEditImg = () => {
   hideElement(formEditImg);
   removeModalOpen();
   uploadInput.value = '';
+  updateScale(DEFAULT_SCALE);
+  previewImgUpload.style.filter = 'none';
+  formUpload.reset();
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
@@ -44,6 +49,8 @@ const openFormEditImg = () => {
 formEditImgCloseBtn.addEventListener('click', () => {
   closeFormEditImg();
 });
+
+
 openFormEditImg();
 
 export { openFormEditImg };

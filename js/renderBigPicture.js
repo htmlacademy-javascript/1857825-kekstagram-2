@@ -59,3 +59,4 @@ usersPhotoList.addEventListener('click', (event) => {
 });
 
 bigPictureButtonClose.addEventListener('click', closeBigPicture);
+
