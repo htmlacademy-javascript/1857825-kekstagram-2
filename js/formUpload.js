@@ -8,7 +8,7 @@ import { textHashtags, textDescription, formUpload, validateForm } from './formV
 
 import { DEFAULT_SCALE, previewImgUpload, updateScale } from './editLoadImg';
 
-import { /*maxEffectLevel, effectLevelInput,*/ resetSlider } from './noUiSlider';
+import { resetSlider } from './noUiSlider';
 
 import './formValidate/';
 
@@ -19,8 +19,6 @@ const formEditImg = document.querySelector('.img-upload__overlay');
 const formEditImgCloseBtn = document.querySelector('.img-upload__cancel');
 
 const submitButton = formUpload.querySelector('.img-upload__submit');
-
-/*const filename = formUpload.filename;*/
 
 const successTemplate = findTemplate('success');
 
@@ -55,7 +53,6 @@ const closeFormEditImg = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-// Функция показа сообщения
 const showMessage = (template, isError = false) => {
   // Удаляем предыдущее сообщение, если есть
   if (currentMessageElement) {
@@ -93,7 +90,6 @@ const showMessage = (template, isError = false) => {
     });
   }
 
-  // Функция закрытия сообщения
   function closeMessage () {
     messageElement.remove();
     currentMessageElement = null;
@@ -104,19 +100,15 @@ const showMessage = (template, isError = false) => {
   // Добавляем обработчики
   document.addEventListener('keydown', onMessageKeydown);
   document.addEventListener('click', onDocumentClick);
-
-  // Для успешного сообщения - фокусируемся на кнопке
   if (!isError) {
     closeButton.focus();
   }
 };
 
-// Функция показа сообщения об успехе
 const showSuccessMessage = () => {
   showMessage(successTemplate, false);
 };
 
-// Функция показа сообщения об ошибке
 const showErrorMessage = () => {
   showMessage(errorTemplate, true);
 };
@@ -137,14 +129,12 @@ const onFormSubmit = async (evt) => {
 
     await sendData(formData);
 
-    // Показываем сообщение об успехе
     showSuccessMessage();
 
-    // Закрываем форму
     closeFormEditImg();
 
   } catch (error) {
-    // Показываем сообщение об ошибке (данные сохраняются автоматически)
+
     showErrorMessage();
 
   } finally {
