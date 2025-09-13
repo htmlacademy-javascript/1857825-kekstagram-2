@@ -6,7 +6,7 @@ const maxEffectLevel = 100;
 const sliderElement = document.querySelector('.effect-level__slider');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 const effectLevelInput = document.querySelector('.effect-level__value');
-const effectsList = document.querySelector('.effects__list'); // Родительский элемент
+const effectsList = document.querySelector('.effects__list');
 
 effectLevelInput.value = maxEffectLevel;
 
@@ -20,6 +20,31 @@ noUiSlider.create(sliderElement, {
   connect: 'lower',
 });
 
+const applyEffect = (effectName, value) => {
+  if (effectName === 'none') {
+    previewImgUpload.style.filter = 'none';
+    hideElement(sliderContainer);
+  } else {
+    const effectFunction = filterByEffectObj[effectName];
+    previewImgUpload.style.filter = effectFunction(value);
+    showElement(sliderContainer);
+  }
+};
+// Функция для сброса слайдера
+const resetSlider = () => {
+  // Сбрасываем слайдер на максимальное значение
+  sliderElement.noUiSlider.set(maxEffectLevel);
+  // Сбрасываем выбор эффекта на "none"
+  const noneRadio = document.querySelector('#effect-none');
+  if (noneRadio) {
+    noneRadio.checked = true;
+  }
+  // Применяем эффект "none"
+  applyEffect('none');
+  effectLevelInput.value = maxEffectLevel;
+  hideElement(sliderContainer);
+};
+
 const updateSliderSettings = (effectName) => {
   const effectSettings = EFFECTS[effectName];
   sliderElement.noUiSlider.updateOptions({
@@ -30,17 +55,6 @@ const updateSliderSettings = (effectName) => {
     start: effectSettings.start,
     step: effectSettings.step
   });
-};
-
-const applyEffect = (effectName, value) => {
-  if (effectName === 'none') {
-    previewImgUpload.style.filter = 'none';
-    hideElement(sliderContainer);
-  } else {
-    const effectFunction = filterByEffectObj[effectName];
-    previewImgUpload.style.filter = effectFunction(value);
-    showElement(sliderContainer);
-  }
 };
 
 // Инициализация
@@ -58,7 +72,6 @@ sliderElement.noUiSlider.on('update', () => {
   applyEffect(selectedEffect, currentValue);
 });
 
-// Один обработчик на родительском элементе (не накапливается)
 effectsList.addEventListener('change', (evt) => {
   if (evt.target.classList.contains('effects__radio')) {
     const effectName = evt.target.value;
@@ -73,4 +86,7 @@ effectsList.addEventListener('change', (evt) => {
     }
   }
 });
+
+// Экспортируем функцию сброса
+export { maxEffectLevel, effectLevelInput, resetSlider };
 

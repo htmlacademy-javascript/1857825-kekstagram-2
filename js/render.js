@@ -1,17 +1,29 @@
-import { createArrayPhotoDescriptions } from './createArrayMiniatures.js';
 import { findTemplate, renderPack } from './domUtils.js';
+import { getData } from './api.js';
 
-const SIMILAR_OBJECTS = 25;
-/** @type {HTMLAncorElement} */
+/** @type {HTMLAnchorElement} */
 const template = findTemplate('picture');
+const templateLoadError = findTemplate('data-error');
 
 const usersPhotoList = document.querySelector('.pictures');
 
+// Создаем и сразу экспортируем переменную
+export let similarPhotoDescriptions = [];
 
-const similarPhotoDescriptions = createArrayPhotoDescriptions(SIMILAR_OBJECTS);
+// Функция для показа ошибки
+const showLoadError = () => {
+  const errorElement = templateLoadError.cloneNode(true);
+  document.body.appendChild(errorElement);
 
+  // Автоматическое скрытие ошибки через 5 секунд
+  setTimeout(() => {
+    errorElement.remove();
+  }, 5000);
+};
+
+// Функция для создания элемента фото
 const creatPhotoElement = (photo) => {
-  /** @type {HTMLAncorElement} */
+  /** @type {HTMLAnchorElement} */
   const photoElement = template.cloneNode(true);
   photoElement.href = photo.url;
   photoElement.dataset.id = photo.id;
@@ -22,6 +34,18 @@ const creatPhotoElement = (photo) => {
   return photoElement;
 };
 
-renderPack(similarPhotoDescriptions, creatPhotoElement, usersPhotoList);
+// Функция для загрузки данных
+const initGallery = async () => {
+  try {
+    similarPhotoDescriptions = await getData();
+    renderPack(similarPhotoDescriptions, creatPhotoElement, usersPhotoList);
+  } catch (error) {
+    similarPhotoDescriptions = [];
+    showLoadError();
+  }
+};
 
-export { usersPhotoList, similarPhotoDescriptions };
+// Запускаем инициализацию и ждем ее завершения
+initGallery();
+
+export { usersPhotoList };

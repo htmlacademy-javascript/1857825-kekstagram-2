@@ -61,14 +61,6 @@ pristine.addValidator(textHashtags, (value) => {
 
 pristine.addValidator(textDescription, (value) => value.length <= 140, 'Длина комментария не может превышать 140 символов', 1, false);
 
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-  if (pristine.validate()) {
-    textHashtags.value = textHashtags.value.trim().replaceAll(/\s+/g, ' ');
-    formUpload.submit();
-  }
-};
+const validateForm = () => pristine.validate();
 
-formUpload.addEventListener('submit', onFormSubmit);
-
-export {textHashtags, textDescription, formUpload };
+export {textHashtags, textDescription, formUpload, validateForm };
