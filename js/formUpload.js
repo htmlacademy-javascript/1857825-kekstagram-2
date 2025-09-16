@@ -12,9 +12,13 @@ import { resetSlider } from './noUiSlider';
 
 import './formValidate/';
 
+const FILE_TYPES = ['.jpeg', '.jpg', '.png', '.gif', '.jfif'];
+
 const uploadInput = document.querySelector('#upload-file');
 
 const formEditImg = document.querySelector('.img-upload__overlay');
+
+const uploadFileInputElem = formUpload.querySelector('.img-upload__input');
 
 const formEditImgCloseBtn = document.querySelector('.img-upload__cancel');
 
@@ -169,5 +173,14 @@ formEditImgCloseBtn.addEventListener('click', () => {
 });
 
 openFormEditImg();
+
+uploadFileInputElem.addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    previewImgUpload.src = URL.createObjectURL(file);
+  }
+});
 
 export { openFormEditImg };
