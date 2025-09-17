@@ -1,14 +1,13 @@
 import { findTemplate, renderPack } from './domUtils.js';
-import { getData } from './api.js';
 
 /** @type {HTMLAnchorElement} */
 const template = findTemplate('picture');
 const templateLoadError = findTemplate('data-error');
 
-const usersPhotoList = document.querySelector('.pictures');
+/*const usersPhotoList = document.querySelector('.pictures');*/
 
 // Создаем и сразу экспортируем переменную
-export let similarPhotoDescriptions = [];
+/*export let similarPhotoDescriptions = [];*/
 
 // Функция для показа ошибки
 const showLoadError = () => {
@@ -34,18 +33,12 @@ const creatPhotoElement = (photo) => {
   return photoElement;
 };
 
-// Функция для загрузки данных
-const initGallery = async () => {
-  try {
-    similarPhotoDescriptions = await getData();
-    renderPack(similarPhotoDescriptions, creatPhotoElement, usersPhotoList);
-  } catch (error) {
-    similarPhotoDescriptions = [];
-    showLoadError();
-  }
+// Функция для отрисовки галереи (экспортируем)
+const renderGallery = (photos, container) => {
+  renderPack(photos, creatPhotoElement, container);
 };
 
-// Запускаем инициализацию и ждем ее завершения
-initGallery();
-
-export { usersPhotoList };
+const clearGallary = (container) => {
+  container.querySelectorAll('a.picture').forEach((item) => item.remove());
+};
+export { creatPhotoElement, renderGallery, showLoadError,clearGallary };

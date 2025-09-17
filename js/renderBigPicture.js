@@ -1,5 +1,4 @@
-import { usersPhotoList, similarPhotoDescriptions } from './render';
-
+/*import { usersPhotoList, similarPhotoDescriptions } from './render';*/
 import { createComments } from './createComments.js';
 
 import { isEscapeKey } from './utils.js';
@@ -39,24 +38,30 @@ const openBigPicture = () => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
+const initBigPicture = (photoDescriptions, photosContainer) => {
 
-usersPhotoList.addEventListener('click', (event) => {
-  // Проверяем, что кликнули по миниатюре (или её дочернему элементу)
-  const thumbnail = event.target.closest('.picture');
-  if (thumbnail) {
-    event.preventDefault();
-    const photoId = parseInt(thumbnail.dataset.id, 10);
+  photosContainer.addEventListener('click', (event) => {
+    // Проверяем, что кликнули по миниатюре (или её дочернему элементу)
+    const thumbnail = event.target.closest('.picture');
+    if (thumbnail) {
+      event.preventDefault();
+      const photoId = parseInt(thumbnail.dataset.id, 10);
 
-    const selectedPhoto = similarPhotoDescriptions.find((photo)=> photo.id === photoId);
-    bigPictureImg.src = selectedPhoto.url;
-    bigPictureLikeCount.textContent = selectedPhoto.likes;
-    bigPictureTotalComments.textContent = selectedPhoto.comments.length;
-    bigPictureDescription.textContent = selectedPhoto.description;
+      const selectedPhoto = photoDescriptions.find((photo)=> photo.id === photoId);
 
-    createComments(selectedPhoto);
-    openBigPicture();
-  }
-});
+      if (selectedPhoto) {
+        bigPictureImg.src = selectedPhoto.url;
+        bigPictureLikeCount.textContent = selectedPhoto.likes;
+        bigPictureTotalComments.textContent = selectedPhoto.comments.length;
+        bigPictureDescription.textContent = selectedPhoto.description;
 
-bigPictureButtonClose.addEventListener('click', closeBigPicture);
+        createComments(selectedPhoto);
+        openBigPicture();
+      }
+    }
+  });
+  bigPictureButtonClose.addEventListener('click', closeBigPicture);
+};
+
+export { initBigPicture };
 

@@ -58,4 +58,4 @@ const renderPack = (items, makeElement, container) => {
   container.appendChild(fragment);
 };
 
-export { findTemplate, renderPack, makeCommentElement, hideElement, showElement, removeModalOpen, addModalOpen};
+export { findTemplate, renderPack, makeCommentElement, hideElement, showElement, removeModalOpen, addModalOpen, removeClass, addClass};
