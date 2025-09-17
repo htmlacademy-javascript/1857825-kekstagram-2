@@ -4,11 +4,6 @@ import { findTemplate, renderPack } from './domUtils.js';
 const template = findTemplate('picture');
 const templateLoadError = findTemplate('data-error');
 
-/*const usersPhotoList = document.querySelector('.pictures');*/
-
-// Создаем и сразу экспортируем переменную
-/*export let similarPhotoDescriptions = [];*/
-
 // Функция для показа ошибки
 const showLoadError = () => {
   const errorElement = templateLoadError.cloneNode(true);
