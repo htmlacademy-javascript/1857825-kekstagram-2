@@ -28,7 +28,7 @@ const creatPhotoElement = (photo) => {
   return photoElement;
 };
 
-// Функция для отрисовки галереи (экспортируем)
+// Функция для отрисовки галереи
 const renderGallery = (photos, container) => {
   renderPack(photos, creatPhotoElement, container);
 };

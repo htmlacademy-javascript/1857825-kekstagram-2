@@ -1,4 +1,3 @@
-/*import { usersPhotoList, similarPhotoDescriptions } from './render';*/
 import { createComments } from './createComments.js';
 
 import { isEscapeKey } from './utils.js';

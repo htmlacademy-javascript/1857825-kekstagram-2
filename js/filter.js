@@ -46,12 +46,10 @@ const initFilters = (photos, renderGalleryCallback, container) => {
       return;
     }
 
-    // НЕМЕДЛЕННО переключаем активную кнопку
     const activeButtons = document.querySelectorAll(`${BUTTON_SELECTOR}.${ACTIVE_BUTTON_CLASS}`);
     activeButtons.forEach((button) => removeClass(button, ACTIVE_BUTTON_CLASS));
     addClass(filterButton, ACTIVE_BUTTON_CLASS);
 
-    // ТОЛЬКО фильтрацию откладываем на 500 мс
     applyFilter(filterButton.id);
   };
 

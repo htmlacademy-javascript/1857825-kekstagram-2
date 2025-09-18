@@ -30,7 +30,7 @@ const applyEffect = (effectName, value) => {
     showElement(sliderContainer);
   }
 };
-// Функция для сброса слайдера
+
 const resetSlider = () => {
   // Сбрасываем слайдер на максимальное значение
   sliderElement.noUiSlider.set(maxEffectLevel);
@@ -39,7 +39,6 @@ const resetSlider = () => {
   if (noneRadio) {
     noneRadio.checked = true;
   }
-  // Применяем эффект "none"
   applyEffect('none');
   effectLevelInput.value = maxEffectLevel;
   hideElement(sliderContainer);
@@ -57,7 +56,6 @@ const updateSliderSettings = (effectName) => {
   });
 };
 
-// Инициализация
 hideElement(sliderContainer);
 const initialEffect = document.querySelector('.effects__radio:checked').value;
 if (initialEffect !== 'none') {
@@ -89,6 +87,5 @@ effectsList.addEventListener('change', (evt) => {
   }
 });
 
-// Экспортируем функцию сброса
 export { maxEffectLevel, effectLevelInput, resetSlider };
 

@@ -133,7 +133,6 @@ const showMessage = (template, isError = false) => {
     document.removeEventListener('click', onDocumentClick);
   }
 
-  // Добавляем обработчики
   document.addEventListener('keydown', onMessageKeydown);
   document.addEventListener('click', onDocumentClick);
   if (!isError) {
