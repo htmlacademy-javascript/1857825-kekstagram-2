@@ -4,7 +4,7 @@ import { isEscapeKey } from './utils';
 
 import { showElement, hideElement, addModalOpen, removeModalOpen, findTemplate } from './domUtils';
 
-import { textHashtags, textDescription, formUpload, validateForm } from './formValidate';
+import { textHashtags, textDescription, formUpload, validateForm, pristine } from './formValidate';
 
 import { DEFAULT_SCALE, previewImgUpload, updateScale } from './editLoadImg';
 
@@ -31,7 +31,21 @@ const errorTemplate = findTemplate('error');
 let onDocumentKeydown = null;
 
 let currentMessageElement = null;
+textHashtags.addEventListener('input', () => {
+  // Если поле пустое или содержит только пробелы - сбрасываем валидацию
+  if (!textHashtags.value.trim()) {
+    pristine.reset();
+  }
+});
 
+const clearAllErrors = () => {
+  pristine.reset();
+  const errorElements = document.querySelectorAll('.pristine-error');
+  errorElements.forEach((element) => element.remove());
+  textHashtags.classList.remove('img-upload__field-wrapper--error');
+  textDescription.classList.remove('img-upload__field-wrapper--error');
+};
+// Также для поля описания (на всякий случай)
 const getFormData = () => {
   const formData = new FormData(formUpload);
   // Добавляем очищенные хэштеги
@@ -54,6 +68,23 @@ const closeFormEditImg = () => {
   previewImgUpload.style.filter = 'none';
   formUpload.reset();
   resetSlider();
+  pristine.reset();
+  const errorElements = document.querySelectorAll('.pristine-error');
+  errorElements.forEach((element) => element.remove());
+  textDescription.addEventListener('input', () => {
+    if (!textDescription.value.trim()) {
+      pristine.reset();
+      clearAllErrors();
+    }
+  });
+
+  textHashtags.addEventListener('input', () => {
+    if (textHashtags.value.trim() === '') {
+    // Скрываем ошибки когда поле пустое
+      pristine.reset();
+      clearAllErrors();
+    }
+  });
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
@@ -71,6 +102,7 @@ const showMessage = (template, isError = false) => {
   const onMessageKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
+      evt.stopPropagation();
       closeMessage();
     }
   };
@@ -148,6 +180,9 @@ const onFormSubmit = async (evt) => {
 
 onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
+    if (currentMessageElement) {
+      return;
+    }
     const isFocusInInput = document.activeElement === textHashtags ||
                           document.activeElement === textDescription;
 
@@ -166,6 +201,13 @@ const openFormEditImg = () => {
   });
 };
 
+const updateEffectsPreviews = (imageUrl) => {
+  const effectPreviews = document.querySelectorAll('.effects__preview');
+  effectPreviews.forEach((preview) => {
+    preview.style.backgroundImage = `url(${imageUrl})`;
+  });
+};
+
 formUpload.addEventListener('submit', onFormSubmit);
 
 formEditImgCloseBtn.addEventListener('click', () => {
@@ -179,7 +221,9 @@ uploadFileInputElem.addEventListener('change', (event) => {
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
   if (matches) {
-    previewImgUpload.src = URL.createObjectURL(file);
+    const objectUrl = URL.createObjectURL(file);
+    previewImgUpload.src = objectUrl;
+    updateEffectsPreviews(objectUrl);
   }
 });
 

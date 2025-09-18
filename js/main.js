@@ -6,6 +6,30 @@ import './formUpload.js';
 import './editLoadImg.js';
 import './noUiSlider.js';
 
+if (navigator.userAgent.includes('WebKit')) {
+  const originalDataTransfer = window.DataTransfer;
+
+  window.DataTransfer = function() {
+    const instance = new originalDataTransfer();
+    const files = [];
+
+    if (!instance.items.add) {
+      instance.items.add = function(file) {
+        files.push(file);
+        Object.defineProperty(instance, 'files', {
+          value: Object.freeze(files.slice()),
+          writable: false
+        });
+      };
+    }
+
+    return instance;
+  };
+
+  // Наследуем прототип
+  window.DataTransfer.prototype = originalDataTransfer.prototype;
+}
+
 const usersPhotoList = document.querySelector('.pictures');
 let similarPhotoDescriptions = [];
 

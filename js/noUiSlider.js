@@ -65,9 +65,11 @@ if (initialEffect !== 'none') {
   applyEffect(initialEffect, EFFECTS[initialEffect].start);
 }
 
+const formatEffectValue = (value) => parseFloat(value).toString();
+
 sliderElement.noUiSlider.on('update', () => {
   const currentValue = sliderElement.noUiSlider.get();
-  effectLevelInput.value = currentValue;
+  effectLevelInput.value = formatEffectValue(currentValue);
   const selectedEffect = document.querySelector('.effects__radio:checked').value;
   applyEffect(selectedEffect, currentValue);
 });
