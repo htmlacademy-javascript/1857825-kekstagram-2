@@ -20,10 +20,6 @@ const initApp = async () => {
     renderGallery(similarPhotoDescriptions, usersPhotoList);
     // Инициализируем функционал большого фото
     initBigPicture(similarPhotoDescriptions, usersPhotoList);
-    // Инициализируем фильтры, передавая:
-    // 1. Данные
-    // 2. Функцию для перерисовки
-    // 3. Контейнер
     initFilters(similarPhotoDescriptions, rerenderGallery, usersPhotoList);
   } catch (error) {
     similarPhotoDescriptions = [];
