@@ -15,9 +15,9 @@ const Filter = {
 const getFilteredPhotos = (photos, filterType) => {
   switch (filterType) {
     case Filter.RANDOM:
-      return [...photos].sort(() => Math.random() - 0.5).slice(0, 10);
+      return [...photos].toSorted(() => Math.random() - 0.5).slice(0, 10);
     case Filter.DISCUSSED:
-      return [...photos].sort((a, b) => b.comments.length - a.comments.length);
+      return [...photos].toSorted((a, b) => b.comments.length - a.comments.length);
     case Filter.DEFAULT:
     default:
       return [...photos];
