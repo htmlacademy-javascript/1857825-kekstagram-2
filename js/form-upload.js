@@ -18,8 +18,6 @@ const uploadInputElement = document.querySelector('#upload-file');
 
 const formEditImgElement = document.querySelector('.img-upload__overlay');
 
-/*const uploadFileInputElem = formUploadElement.querySelector('.img-upload__input');*/
-
 const formEditImgCloseBtnElement = document.querySelector('.img-upload__cancel');
 
 const submitButtonElement = formUploadElement.querySelector('.img-upload__submit');
