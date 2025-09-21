@@ -1,4 +1,4 @@
-const pageBody = document.querySelector('body');
+const pageBodyElement = document.querySelector('body');
 
 const addClass = (element, className) => {
   if (element) {
@@ -21,34 +21,44 @@ const showElement = (element) => {
 };
 
 const removeModalOpen = () => {
-  pageBody.classList.remove('modal-open');
+  pageBodyElement.classList.remove('modal-open');
 };
 
 const addModalOpen = () => {
-  pageBody.classList.add('modal-open');
+  pageBodyElement.classList.add('modal-open');
 };
 
 const findTemplate = (id) => {
-  const template = document.getElementById(id);
+  const templateElement = document.getElementById(id);
 
-  if (!template) {
+  if (!templateElement) {
     throw new Error(`Template not found: ${id}`);
   }
 
-  if (!(template instanceof HTMLTemplateElement)) {
+  if (!(templateElement instanceof HTMLTemplateElement)) {
     throw new Error(`Element is not a Template: ${id}`);
   }
 
-  return template.content.firstElementChild;
+  return templateElement.content.firstElementChild;
 };
 
 const makeCommentElement = (comment) => {
   const commentElement = document.createElement('li');
   commentElement.className = 'social__comment';
-  commentElement.innerHTML = `
-    <img class="social__picture" src="${comment.avatar}" alt="${comment.name}" width="35" height="35">
-    <p class="social__text">${comment.message}</p>
-  `;
+  const imgCommentElement = document.createElement('img');
+  imgCommentElement.className = 'social__picture';
+  imgCommentElement.src = comment.avatar;
+  imgCommentElement.alt = comment.name;
+  imgCommentElement.width = 35;
+  imgCommentElement.height = 35;
+
+  const textCommentElement = document.createElement('p');
+  textCommentElement.className = 'social__text';
+  textCommentElement.textContent = comment.message;
+
+  commentElement.appendChild(imgCommentElement);
+  commentElement.appendChild(textCommentElement);
+
   return commentElement;
 };
 

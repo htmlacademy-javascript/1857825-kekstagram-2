@@ -1,39 +1,39 @@
-import { sendData } from './api';
+import { sendData } from './api.js';
 
-import { isEscapeKey } from './utils';
+import { isEscapeKey } from './utils.js';
 
-import { showElement, hideElement, addModalOpen, removeModalOpen, findTemplate } from './domUtils';
+import { showElement, hideElement, addModalOpen, removeModalOpen, findTemplate } from './dom-utils';
 
-import { textHashtags, textDescription, formUpload, validateForm, pristine } from './formValidate';
+import { textHashtagsElement, textDescriptionElement, formUploadElement, validateForm, pristine } from './form-validate';
 
-import { DEFAULT_SCALE, previewImgUpload, updateScale } from './editLoadImg';
+import { DEFAULT_SCALE, previewImgUploadElement, updateScale } from './edit-load-img';
 
-import { resetSlider } from './noUiSlider';
+import { resetSlider } from './no-uislider';
 
-import './formValidate/';
+import './form-validate.js';
 
 const FILE_TYPES = ['.jpeg', '.jpg', '.png', '.gif', '.jfif'];
 
-const uploadInput = document.querySelector('#upload-file');
+const uploadInputElement = document.querySelector('#upload-file');
 
-const formEditImg = document.querySelector('.img-upload__overlay');
+const formEditImgElement = document.querySelector('.img-upload__overlay');
 
-const uploadFileInputElem = formUpload.querySelector('.img-upload__input');
+/*const uploadFileInputElem = formUploadElement.querySelector('.img-upload__input');*/
 
-const formEditImgCloseBtn = document.querySelector('.img-upload__cancel');
+const formEditImgCloseBtnElement = document.querySelector('.img-upload__cancel');
 
-const submitButton = formUpload.querySelector('.img-upload__submit');
+const submitButtonElement = formUploadElement.querySelector('.img-upload__submit');
 
-const successTemplate = findTemplate('success');
+const successTemplateElement = findTemplate('success');
 
-const errorTemplate = findTemplate('error');
+const errorTemplateElement = findTemplate('error');
 
 let onDocumentKeydown = null;
 
 let currentMessageElement = null;
-textHashtags.addEventListener('input', () => {
+textHashtagsElement.addEventListener('input', () => {
   // Если поле пустое или содержит только пробелы - сбрасываем валидацию
-  if (!textHashtags.value.trim()) {
+  if (!textHashtagsElement.value.trim()) {
     pristine.reset();
   }
 });
@@ -42,44 +42,44 @@ const clearAllErrors = () => {
   pristine.reset();
   const errorElements = document.querySelectorAll('.pristine-error');
   errorElements.forEach((element) => element.remove());
-  textHashtags.classList.remove('img-upload__field-wrapper--error');
-  textDescription.classList.remove('img-upload__field-wrapper--error');
+  textHashtagsElement.classList.remove('img-upload__field-wrapper--error');
+  textDescriptionElement.classList.remove('img-upload__field-wrapper--error');
 };
 // Также для поля описания (на всякий случай)
 const getFormData = () => {
-  const formData = new FormData(formUpload);
+  const formData = new FormData(formUploadElement);
   // Добавляем очищенные хэштеги
-  formData.set('hashtags', textHashtags.value.trim().replaceAll(/\s+/g, ' '));
+  formData.set('hashtags', textHashtagsElement.value.trim().replaceAll(/\s+/g, ' '));
   return formData;
 };
 
 
 // Функция блокировки кнопки отправки
 const toggleSubmitButton = (isDisabled) => {
-  submitButton.disabled = isDisabled;
-  submitButton.textContent = isDisabled ? 'Отправка...' : 'Опубликовать';
+  submitButtonElement.disabled = isDisabled;
+  submitButtonElement.textContent = isDisabled ? 'Отправка...' : 'Опубликовать';
 };
 
 const closeFormEditImg = () => {
-  hideElement(formEditImg);
+  hideElement(formEditImgElement);
   removeModalOpen();
-  uploadInput.value = '';
+  uploadInputElement.value = '';
   updateScale(DEFAULT_SCALE);
-  previewImgUpload.style.filter = 'none';
-  formUpload.reset();
+  previewImgUploadElement.style.filter = 'none';
+  formUploadElement.reset();
   resetSlider();
   pristine.reset();
   const errorElements = document.querySelectorAll('.pristine-error');
   errorElements.forEach((element) => element.remove());
-  textDescription.addEventListener('input', () => {
-    if (!textDescription.value.trim()) {
+  textDescriptionElement.addEventListener('input', () => {
+    if (!textDescriptionElement.value.trim()) {
       pristine.reset();
       clearAllErrors();
     }
   });
 
-  textHashtags.addEventListener('input', () => {
-    if (textHashtags.value.trim() === '') {
+  textHashtagsElement.addEventListener('input', () => {
+    if (textHashtagsElement.value.trim() === '') {
     // Скрываем ошибки когда поле пустое
       pristine.reset();
       clearAllErrors();
@@ -110,17 +110,17 @@ const showMessage = (template, isError = false) => {
   // Обработчик клика вне сообщения
   const onDocumentClick = (evt) => {
     // Проверяем, что клик был именно вне блока сообщения
-    const messageInner = messageElement.querySelector(isError ? '.error__inner' : '.success__inner');
-    if (messageInner && !messageInner.contains(evt.target)) {
+    const messageInnerElement = messageElement.querySelector(isError ? '.error__inner' : '.success__inner');
+    if (messageInnerElement && !messageInnerElement.contains(evt.target)) {
       closeMessage();
     }
   };
 
   // Обработчик кнопки закрытия
-  const closeButton = messageElement.querySelector(isError ? '.error__button' : '.success__button');
-  if (closeButton) {
+  const closeButtonElement = messageElement.querySelector(isError ? '.error__button' : '.success__button');
+  if (closeButtonElement) {
     // Предотвращаем всплытие события от кнопки
-    closeButton.addEventListener('click', (evt) => {
+    closeButtonElement.addEventListener('click', (evt) => {
       evt.stopPropagation();
       closeMessage();
     });
@@ -136,16 +136,16 @@ const showMessage = (template, isError = false) => {
   document.addEventListener('keydown', onMessageKeydown);
   document.addEventListener('click', onDocumentClick);
   if (!isError) {
-    closeButton.focus();
+    closeButtonElement.focus();
   }
 };
 
 const showSuccessMessage = () => {
-  showMessage(successTemplate, false);
+  showMessage(successTemplateElement, false);
 };
 
 const showErrorMessage = () => {
-  showMessage(errorTemplate, true);
+  showMessage(errorTemplateElement, true);
 };
 
 // Функция отправки формы
@@ -159,7 +159,7 @@ const onFormSubmit = async (evt) => {
   toggleSubmitButton(true);
 
   try {
-    textHashtags.value = textHashtags.value.trim().replaceAll(/\s+/g, ' ');
+    textHashtagsElement.value = textHashtagsElement.value.trim().replaceAll(/\s+/g, ' ');
     const formData = getFormData();
 
     await sendData(formData);
@@ -182,8 +182,8 @@ onDocumentKeydown = (evt) => {
     if (currentMessageElement) {
       return;
     }
-    const isFocusInInput = document.activeElement === textHashtags ||
-                          document.activeElement === textDescription;
+    const isFocusInInput = document.activeElement === textHashtagsElement ||
+                          document.activeElement === textDescriptionElement;
 
     if (!isFocusInInput) {
       evt.preventDefault();
@@ -193,35 +193,35 @@ onDocumentKeydown = (evt) => {
 };
 
 const openFormEditImg = () => {
-  uploadInput.addEventListener ('change', () => {
-    showElement(formEditImg);
+  uploadInputElement.addEventListener ('change', () => {
+    showElement(formEditImgElement);
     addModalOpen();
     document.addEventListener('keydown', onDocumentKeydown);
   });
 };
 
 const updateEffectsPreviews = (imageUrl) => {
-  const effectPreviews = document.querySelectorAll('.effects__preview');
-  effectPreviews.forEach((preview) => {
+  const effectPreviewElements = document.querySelectorAll('.effects__preview');
+  effectPreviewElements.forEach((preview) => {
     preview.style.backgroundImage = `url(${imageUrl})`;
   });
 };
 
-formUpload.addEventListener('submit', onFormSubmit);
+formUploadElement.addEventListener('submit', onFormSubmit);
 
-formEditImgCloseBtn.addEventListener('click', () => {
+formEditImgCloseBtnElement.addEventListener('click', () => {
   closeFormEditImg();
 });
 
 openFormEditImg();
 
-uploadFileInputElem.addEventListener('change', (event) => {
+uploadInputElement.addEventListener('change', (event) => {
   const file = event.target.files[0];
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
   if (matches) {
     const objectUrl = URL.createObjectURL(file);
-    previewImgUpload.src = objectUrl;
+    previewImgUploadElement.src = objectUrl;
     updateEffectsPreviews(objectUrl);
   }
 });

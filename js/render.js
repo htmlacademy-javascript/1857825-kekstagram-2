@@ -1,12 +1,12 @@
-import { findTemplate, renderPack } from './domUtils.js';
+import { findTemplate, renderPack } from './dom-utils.js';
 
 /** @type {HTMLAnchorElement} */
-const template = findTemplate('picture');
-const templateLoadError = findTemplate('data-error');
+const templateElement = findTemplate('picture');
+const templateLoadErrorElement = findTemplate('data-error');
 
 // Функция для показа ошибки
 const showLoadError = () => {
-  const errorElement = templateLoadError.cloneNode(true);
+  const errorElement = templateLoadErrorElement.cloneNode(true);
   document.body.appendChild(errorElement);
 
   // Автоматическое скрытие ошибки через 5 секунд
@@ -16,9 +16,9 @@ const showLoadError = () => {
 };
 
 // Функция для создания элемента фото
-const creatPhotoElement = (photo) => {
+const createPhotoElement = (photo) => {
   /** @type {HTMLAnchorElement} */
-  const photoElement = template.cloneNode(true);
+  const photoElement = templateElement.cloneNode(true);
   photoElement.href = photo.url;
   photoElement.dataset.id = photo.id;
   photoElement.querySelector('.picture__img').src = photo.url;
@@ -30,10 +30,10 @@ const creatPhotoElement = (photo) => {
 
 // Функция для отрисовки галереи
 const renderGallery = (photos, container) => {
-  renderPack(photos, creatPhotoElement, container);
+  renderPack(photos, createPhotoElement, container);
 };
 
 const clearGallary = (container) => {
   container.querySelectorAll('a.picture').forEach((item) => item.remove());
 };
-export { creatPhotoElement, renderGallery, showLoadError,clearGallary };
+export { renderGallery, showLoadError, clearGallary };
