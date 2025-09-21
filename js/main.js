@@ -1,12 +1,12 @@
 import { getData } from './api.js';
 import { renderGallery, showLoadError } from './render.js';
-import { initBigPicture } from './renderBigPicture.js';
+import { initBigPicture } from './render-big-picture.js';
 import { initFilters } from './filter.js';
-import './formUpload.js';
-import './editLoadImg.js';
-import './noUiSlider.js';
+import './form-upload.js';
+import './edit-load-img.js';
+import './no-uislider.js';
 
-const usersPhotoList = document.querySelector('.pictures');
+const usersPhotoListElement = document.querySelector('.pictures');
 let similarPhotoDescriptions = [];
 
 const rerenderGallery = (photos, container) => {
@@ -17,10 +17,10 @@ const initApp = async () => {
   try {
     similarPhotoDescriptions = await getData();
     // Первоначальная отрисовка
-    renderGallery(similarPhotoDescriptions, usersPhotoList);
+    renderGallery(similarPhotoDescriptions, usersPhotoListElement);
     // Инициализируем функционал большого фото
-    initBigPicture(similarPhotoDescriptions, usersPhotoList);
-    initFilters(similarPhotoDescriptions, rerenderGallery, usersPhotoList);
+    initBigPicture(similarPhotoDescriptions, usersPhotoListElement);
+    initFilters(similarPhotoDescriptions, rerenderGallery, usersPhotoListElement);
   } catch (error) {
     similarPhotoDescriptions = [];
     showLoadError();
