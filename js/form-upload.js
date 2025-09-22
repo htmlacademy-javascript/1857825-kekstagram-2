@@ -22,6 +22,8 @@ const formEditImgCloseBtnElement = document.querySelector('.img-upload__cancel')
 
 const submitButtonElement = formUploadElement.querySelector('.img-upload__submit');
 
+const effectPreviewElements = document.querySelectorAll('.effects__preview');
+
 const successTemplateElement = findTemplate('success');
 
 const errorTemplateElement = findTemplate('error');
@@ -62,6 +64,10 @@ const closeFormEditImg = () => {
   hideElement(formEditImgElement);
   removeModalOpen();
   uploadInputElement.value = '';
+  previewImgUploadElement.src = 'img/upload-default-image.jpg';
+  effectPreviewElements.forEach((preview) => {
+    preview.style.backgroundImage = 'none';
+  });
   updateScale(DEFAULT_SCALE);
   previewImgUploadElement.style.filter = 'none';
   formUploadElement.reset();
@@ -199,7 +205,6 @@ const openFormEditImg = () => {
 };
 
 const updateEffectsPreviews = (imageUrl) => {
-  const effectPreviewElements = document.querySelectorAll('.effects__preview');
   effectPreviewElements.forEach((preview) => {
     preview.style.backgroundImage = `url(${imageUrl})`;
   });
